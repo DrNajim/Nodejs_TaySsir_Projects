@@ -14,6 +14,10 @@ const URI= process.env.MONGPDB_URI;
 app.listen(PORT, () => console.log(`server running on port ${PORT}...`));
 mongoose.connect(`${URI}`);
 app.use(cors());
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+const jwt = require("jsonwebtoken")
+
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -33,8 +37,8 @@ app.post("/Hospitauxpub", async (req, res) => {
         console.log(err);
       }
     });
-    app.post("/Signin", async (req,res)=>{
-      const users = req.body;
+      app.post("/Signin",async (req,res)=>{
+        const users = req.body;
       const password= req.body.password
       try {
       let verify = await UserModel.findOne({

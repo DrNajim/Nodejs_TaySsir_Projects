@@ -26,7 +26,7 @@ const limiter = rateLimit({
 })
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
-
+app.use((req, res)=>{res.send("API is running...")})
 app.post("/Hospitauxpub", async (req, res) => {
     try {
         const collectionName = 'Hospitauxpub';

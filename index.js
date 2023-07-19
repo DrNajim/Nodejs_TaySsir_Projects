@@ -9,7 +9,7 @@ app.use(express.json());
 require('dotenv').config({path: "./index.env"});
 const ContactModel = require("./modals/contact");
 const UserModel = require("./modals/users");
-const PORT=process.env.PORT;
+const PORT=process.env.PORT1 || process.env.PORT2;
 const URI= process.env.MONGPDB_URI;
 app.listen(PORT, () => console.log(`server running on port ${PORT}...`));
 mongoose.connect(`${URI}`);

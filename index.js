@@ -11,8 +11,12 @@ const ContactModel = require("./modals/contact");
 const UserModel = require("./modals/users");
 const PORT=process.env.PORT1 || process.env.PORT2;
 const URI= process.env.MONGPDB_URI;
-app.listen(PORT, () => console.log(`server running on port ${PORT}...`));
-mongoose.connect(`${URI}`);
+  mongoose.connect(`${URI}`, {useNewUrlParser: true, useUnifiedTopology: true } )
+  .then(() =>{console.log('Connected Successfully')})
+  .catch((err) => { console.error(err); });
+
+  app.listen(PORT, () => console.log(`server running on port ${PORT}...`));
+
 app.use(cors());
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());

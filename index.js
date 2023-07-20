@@ -67,12 +67,12 @@ app.post("/Hospitauxpub", async (req, res) => {
         });
         if (verify) {
           console.log("user already exist")
-          res.send("user already exist");
+          res.send(verify);
         } else {
           const newuser = new UserModel(users);
           let save = await newuser.save();
           if (save) {
-            res.send("user inserted");
+            res.send(save);
           } else {
             res.send("not inserted");
           }

@@ -37,6 +37,7 @@ router.post("/Hospitauxpub", async (req, res) => {
         const collectionName = 'Hospitauxpub';
         const collection = mongoose.connection.db.collection(collectionName);
         let verify = await collection.find().toArray();
+        console.log(verify)
         res.send(verify);
       } catch (err) {
         console.log(err);

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const app = express();
 const rateLimit = require('express-rate-limit')
 const bcrypt = require("bcryptjs");
+const router=express.Router()
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 require('dotenv').config({path: "./index.env"});
@@ -31,7 +32,7 @@ const limiter = rateLimit({
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
 app.use((req, res)=>{res.send("API is running...")})
-app.post("/Hospitauxpub", async (req, res) => {
+router.post("/Hospitauxpub", async (req, res) => {
     try {
         const collectionName = 'Hospitauxpub';
         const collection = mongoose.connection.db.collection(collectionName);
@@ -64,7 +65,7 @@ app.post("/Hospitauxpub", async (req, res) => {
         console.log(err);
       }
     });
-    app.post("/Signup", async (req, res) => {
+    router.post("/Signup", async (req, res) => {
       const users = req.body;
       try {
         let verify = await UserModel.findOne({
@@ -86,7 +87,7 @@ app.post("/Hospitauxpub", async (req, res) => {
         console.log(err);
       }
     });
-    app.post("/Contact", async (req, res) => {
+    router.post("/Contact", async (req, res) => {
       const contact = req.body;
       try {
           const newcontact = new ContactModel(contact);

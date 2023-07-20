@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const app = express();
 const rateLimit = require('express-rate-limit')
 const bcrypt = require("bcryptjs");
-const router=express.Router()
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 require('dotenv').config({path: "./index.env"});
@@ -12,12 +11,8 @@ const ContactModel = require("./modals/contact");
 const UserModel = require("./modals/users");
 const PORT=process.env.PORT1 || process.env.PORT2;
 const URI= process.env.MONGPDB_URI;
-  mongoose.connect(`${URI}`, {useNewUrlParser: true, useUnifiedTopology: true } )
-  .then(() =>{console.log('Connected Successfully')})
-  .catch((err) => { console.error(err); });
-
-  app.listen(PORT, () => console.log(`server running on port ${PORT}...`));
-
+app.listen(PORT, () => console.log(`server running on port ${PORT}...`));
+mongoose.connect(`${URI}`);
 app.use(cors());
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -31,13 +26,11 @@ const limiter = rateLimit({
 })
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
-app.use((req, res)=>{res.send("API is running...")})
-router.post("/Hospitauxpub", async (req, res) => {
+app.post("/Hospitauxpub", async (req, res) => {
     try {
         const collectionName = 'Hospitauxpub';
         const collection = mongoose.connection.db.collection(collectionName);
         let verify = await collection.find().toArray();
-        console.log(verify)
         res.send(verify);
       } catch (err) {
         console.log(err);
@@ -66,7 +59,7 @@ router.post("/Hospitauxpub", async (req, res) => {
         console.log(err);
       }
     });
-    router.post("/Signup", async (req, res) => {
+    app.post("/Signup", async (req, res) => {
       const users = req.body;
       try {
         let verify = await UserModel.findOne({
@@ -88,7 +81,7 @@ router.post("/Hospitauxpub", async (req, res) => {
         console.log(err);
       }
     });
-    router.post("/Contact", async (req, res) => {
+    app.post("/Contact", async (req, res) => {
       const contact = req.body;
       try {
           const newcontact = new ContactModel(contact);
